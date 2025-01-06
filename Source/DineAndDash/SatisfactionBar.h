@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameModeBase.h"
-#include "MyGameModeBase.generated.h"
+#include "Blueprint/UserWidget.h"
+#include "SatisfactionBar.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class UNREAL101_API AMyGameModeBase : public AGameModeBase
+class DINEANDDASH_API USatisfactionBar : public UUserWidget
 {
 	GENERATED_BODY()
 	

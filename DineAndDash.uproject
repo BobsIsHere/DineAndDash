@@ -5,11 +5,10 @@
 	"Description": "",
 	"Modules": [
 		{
-			"Name": "Unreal101",
+			"Name": "DineAndDash",
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
-				"Engine",
 				"UMG"
 			]
 		}
