@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "SatisfactionBar.h"
 #include "Components/ProgressBar.h"
 #include "Components/HorizontalBox.h"
@@ -38,8 +35,11 @@ void USatisfactionBar::UpdateSatisfaction(int32 Score)
 	}
 
 	// Update Satisfaction Bar
-	ProgressBar->SetPercent(static_cast<float>(Score / SatisfactionThreshold));
+	// Fmod -> Returns the floating-point remainder of the division operation
+	float Progress{static_cast<float>(FMath::Fmod(static_cast<float>(Score), SatisfactionThreshold) / SatisfactionThreshold)};
+	ProgressBar->SetPercent(Progress);
 
+	// If score increases beyond threshold
 	if (Score >= CurrentThreshold + SatisfactionThreshold)
 	{
 		CurrentThreshold += SatisfactionThreshold;
@@ -49,9 +49,29 @@ void USatisfactionBar::UpdateSatisfaction(int32 Score)
 			if (StarImages[CurrentStarIndex]->GetColorAndOpacity() == WhiteColor)  
 			{
 				StarImages[CurrentStarIndex]->SetColorAndOpacity(YellowColor); 
-
-				ProgressBar->SetPercent(0);
+				++CurrentStarIndex;
 			}
+		}
+	}
+	// If score decreases below threshold
+	else if (Score < CurrentThreshold)
+	{
+		if (CurrentStarIndex > 0)
+		{
+			// move to previous star
+			--CurrentStarIndex;
+
+			if (StarImages[CurrentStarIndex]->GetColorAndOpacity() == YellowColor)
+			{
+				StarImages[CurrentStarIndex]->SetColorAndOpacity(WhiteColor);
+			}
+		}
+
+		CurrentThreshold -= SatisfactionThreshold;
+
+		if (CurrentThreshold < 0)
+		{
+			CurrentThreshold = 0;
 		}
 	}
 }
